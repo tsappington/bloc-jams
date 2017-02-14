@@ -9,9 +9,7 @@
         points[x].style.WebkitTransform = "scaleX(1) translateY(0)";
     };
 
-    for(var x = 0; x < 3; x++){
-        revealPoint(x);
-    }
+    forEach(points, revealPoint);
     
 };
 
