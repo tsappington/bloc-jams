@@ -28,6 +28,26 @@
      ]
  };
 
+ var albumLaika = {
+     title: 'Good Looking Blues',
+     artist: 'Laika',
+     label: 'Too Pure',
+     year: '2000',
+     albumArtUrl: 'assets/images/album_covers/11.png',
+     songs: [
+         { title: 'Black Cat Bone', duration: '4:24' },
+         { title: 'Moccasin', duration: '6:01' },
+         { title: 'T. Street', duration: '3:21'},
+         { title: 'Uneasy', duration: '3:14' },
+         { title: 'Good Looking Blues', duration: '2:15'},
+         { title: 'Widows Weed', duration: '3:14' },
+         { title: 'Glory Cloud', duration: '3:44' },
+         { title: 'Go Fish', duration: '4:35' },
+         { title: 'Badtimes', duration: '4:51' },
+         { title: 'Knowing Too Little', duration: '8:27' }
+     ]
+ };
+
 
  var createSongRow = function(songNumber, songName, songLength) {
      var template =
@@ -60,7 +80,29 @@
          albumSongList.innerHTML += createSongRow(i + 1, album.songs[i].title, album.songs[i].duration);
      }
  };
- 
+
+
+var albums = [albumPicasso, albumMarconi, albumLaika];
+var toggleAlbum = function(){
+
+    var albumCurrent = this.src;
+    for(var i = 0; i < albums.length; i++){
+        if(albumCurrent.includes(albums[i].albumArtUrl)){
+            var next = i + 1;
+            if((albums[next]) === undefined){
+                next = 0;
+            }
+            setCurrentAlbum(albums[next]);
+            break;
+        }        
+    }
+    
+};
+
+var album = document.getElementsByClassName('album-cover-art')[0];
+album.addEventListener('click',toggleAlbum);
+
+
  window.onload = function() {
      setCurrentAlbum(albumPicasso);
  };
