@@ -27,7 +27,6 @@
                 $('.main-controls .play-pause').html(playerBarPauseButton);
                 currentSoundFile.play();
             } else {
-                console.log("here");
                 $(this).html(playButtonTemplate);
                 $('.main-controls .play-pause').html(playerBarPlayButton);
                 currentSoundFile.pause();
@@ -181,6 +180,33 @@ var updatePlayerBarSong = function(){
 };
 
 
+var togglePlayFromPlayerBar = function(){
+    
+    var currentSongIndex = trackIndex(currentAlbum, currentSongFromAlbum);
+    if (currentSongIndex >= currentAlbum.songs.length) {
+        currentSongIndex = 0;
+    }
+    
+    var getCurrentSongNumber = function(index) {
+        return index == 0 ? currentAlbum.songs.length : index;
+    };
+    
+    var currentSongNumber = getCurrentSongNumber(currentSongIndex + 1);
+    var $currentSongNumberCell = getSongNumberCell(currentSongNumber);
+    
+    if(currentSoundFile){
+        currentSoundFile.togglePlay();
+        if (currentSoundFile.isPaused()) {
+            $currentSongNumberCell.html(playButtonTemplate);
+            $(this).html(playerBarPlayButton);
+        } else {
+            $currentSongNumberCell.html(pauseButtonTemplate);
+            $(this).html(playerBarPauseButton);
+        }
+    }
+};
+
+
 var playButtonTemplate = '<a class="album-song-button"><span class="ion-play"></span></a>';
 var pauseButtonTemplate = '<a class="album-song-button"><span class="ion-pause"></span></a>';
 var playerBarPlayButton = '<span class="ion-play"></span>';
@@ -193,13 +219,15 @@ var currentVolume = 80;
 
 var $previousButton = $('.main-controls .previous');
 var $nextButton = $('.main-controls .next');
+var $playBarPlayPause = $('.main-controls .play-pause');
 
 
 $(document).ready(function() {
     setCurrentAlbum(albumPicasso);
     $previousButton.click(previousSong);
     $nextButton.click(nextSong);
-         
+    $playBarPlayPause.click(togglePlayFromPlayerBar);
+    
     var albums = [albumPicasso, albumMarconi, albumLaika];
     var toggleAlbum = function(){
 
@@ -215,8 +243,8 @@ $(document).ready(function() {
             }        
         }  
     };
-
+    
     var album = document.getElementsByClassName('album-cover-art')[0];
-    album.addEventListener('click',toggleAlbum);
+    album.addEventListener('click',toggleAlbum);        
      
  });
